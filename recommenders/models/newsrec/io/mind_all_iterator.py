@@ -13,12 +13,12 @@ __all__ = ["MINDAllIterator"]
 
 class MINDAllIterator(BaseIterator):
     """Train data loader for NAML model.
-    The model require a special type of data format, where each instance contains a label, impresion id, user id,
-    the candidate news articles and user's clicked news article. Articles are represented by title words,
-    body words, verts and subverts.
+    The model requires a special type of data format, where each instance contains a label, impresion id, user id,
+    the candidate news articles and the user's clicked news article. Articles are represented by title words,
+    body words, verts, and subverts.
 
-    Iterator will not load the whole data into memory. Instead, it loads data into memory
-    per mini-batch, so that large files can be used as input data.
+    The iterator will not load the whole data into memory. Instead, it loads data into memory
+    per mini-batch so that large files can be used as input data.
 
     Attributes:
         col_spliter (str): column spliter in one line.
@@ -27,7 +27,7 @@ class MINDAllIterator(BaseIterator):
         title_size (int): max word num in news title.
         body_size (int): max word num in news body (abstract used in MIND).
         his_size (int): max clicked news num in user click history.
-        npratio (int): negaive and positive ratio used in negative sampling. -1 means no need of negtive sampling.
+        npratio (int): negative and positive ratio used in negative sampling. -1 means no need of negative sampling.
     """
 
     def __init__(
@@ -261,7 +261,7 @@ class MINDAllIterator(BaseIterator):
 
         Args:
             news_file (str): A file contains several informations of news.
-            beahaviros_file (str): A file contains information of user impressions.
+            behavior_file (str): A file contains information of user impressions.
 
         Yields:
             object: An iterator that yields parsed results, in the format of graph feed_dict.
@@ -412,7 +412,7 @@ class MINDAllIterator(BaseIterator):
 
         Args:
             news_file (str): A file contains several informations of news.
-            beahaviros_file (str): A file contains information of user impressions.
+            behavior_file (str): A file contains information of user impressions.
 
         Yields:
             object: An iterator that yields parsed user feature, in the format of dict.
@@ -549,7 +549,7 @@ class MINDAllIterator(BaseIterator):
         Args:
             news_indexes (list): a list of news indexes.
             candidate_title_indexes (list): the candidate news titles' words indices.
-            candidate_ab_indexes (list): the candidate news abstarcts' words indices.
+            candidate_ab_indexes (list): the candidate news abstracts words indices.
             candidate_vert_indexes (list): the candidate news verts' words indices.
             candidate_subvert_indexes (list): the candidate news subverts' words indices.
 
@@ -575,18 +575,18 @@ class MINDAllIterator(BaseIterator):
             "candidate_subvert_batch": candidate_subvert_index_batch,
         }
 
-    def load_impression_from_file(self, behaivors_file):
-        """Read and parse impression data from behaivors file.
+    def load_impression_from_file(self, behaviors_file):
+        """Read and parse impression data from behaviors file.
 
         Args:
-            behaivors_file (str): A file contains several informations of behaviros.
+            behaviors_file (str): A file contains several informations of behaviors.
 
         Yields:
             object: An iterator that yields parsed impression data, in the format of dict.
         """
 
         if not hasattr(self, "histories"):
-            self.init_behaviors(behaivors_file)
+            self.init_behaviors(behaviors_file)
 
         indexes = np.arange(len(self.labels))
 
